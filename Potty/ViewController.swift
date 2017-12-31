@@ -73,7 +73,14 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         lineGraph?.dataSource = self
         lineGraph?.delegate = self
         lineGraph?.enableBezierCurve = true
-        lineGraph?.enableYAxisLabel = true
+        //lineGraph?.enableYAxisLabel = true
+        //lineGraph?.alphaBackgroundYaxis = 3.0
+        //lineGraph?.alphaLine = 4.0
+        lineGraph?.alwaysDisplayDots = true
+        lineGraph?.alwaysDisplayPopUpLabels = true
+        lineGraph?.autoScaleYAxis = true
+        lineGraph?.widthLine = 5.0
+        
         self.view.addSubview(lineGraph!)
         
         userSetup()
@@ -82,11 +89,45 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         for vv in (dailyAmounts?.values)! {
             sum += vv
         }
-    
         
-        insightsView = InsightsView(frame: CGRect(x: 0.0, y: titleHeight + menuHeight + calendarHeight, width: Double(screenWidth), height: Double(screenHeight*0.8)), inputConsumedAmount: sum, inputConsumedChangeLabel: String(describing: dailyAmounts!.count))
+        var earliestDate: Date? = nil
+        for aa in (dailyAmounts?.keys)! {
+            print("FUC")
+            print(aa)
+        }
+        var inputSmokedAmount = 0.0
+        var inputAteAmount = 0.0
+        var inputVapedAmount = 0.0
+        for useage in (user?.useages)! {
+            if useage.intakeMethods[0] == "smoked" {
+                inputSmokedAmount += inputSmokedAmount
+            } else if useage.intakeMethods[0] == "edbile" {
+                inputAteAmount += inputAteAmount
+            } else if useage.intakeMethods[0] == "vaped" {
+                inputVapedAmount += inputVapedAmount
+            }
+        }
+        
+        var totalSpent = sum * 0.04
+        
+        insightsView = InsightsView(frame: CGRect(x: 0.0, y: titleHeight + menuHeight + calendarHeight, width: Double(screenWidth), height: Double(screenHeight*0.9)), inputConsumedAmount: sum, inputConsumedChangeLabel: String(describing: dailyAmounts!.count), inputSinceWhen: "!", inputAmountSpent: String(totalSpent), inputSmokedAmount: String(inputSmokedAmount), inputVapedAmount: String(inputVapedAmount), inputAteAmount: String(inputAteAmount))
+        
         self.view.addSubview(insightsView!)
         
+    }
+    
+    func GetDateFromString(DateStr: String)-> Date
+    {
+        let calendar = NSCalendar(identifier: NSCalendar.Identifier.gregorian)
+        let DateArray = DateStr.components(separatedBy: "/")
+        let components = NSDateComponents()
+        components.year = Int(DateArray[2])!
+        components.month = Int(DateArray[1])!
+        components.day = Int(DateArray[0])!
+        components.timeZone = TimeZone(abbreviation: "GMT+0:00")
+        let date = calendar?.date(from: components as DateComponents)
+        
+        return date!
     }
     
     func userSetup() {
@@ -167,7 +208,13 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
     
     func pressBack() {
         print("Close Pressed")
+        print(self.addDoseView?.currentPage)
         self.addDoseView!.backPressed()
+        print(self.addDoseView?.currentPage)
+        if self.addDoseView?.currentPage == 0 {
+            print("zzz in")
+            self.addDoseView = nil
+        }
         /*UIView.animate(withDuration: 0.7, delay: 0.0, options: .curveEaseOut, animations: {
             self.addDoseView!.center = CGPoint(x: (self.screenWidth/2.0), y: (self.screenHeight*1.8))
         }, completion: { finished in
@@ -189,6 +236,7 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
     
     func pressAddUseage()  {
         print("BUTTON PRESSED12")
+        print(addDoseView)
         
         if addDoseView == nil {
             addDoseView = AddDoseView(frame: CGRect(x: 10.0, y: screenHeight, width: (screenWidth-10.0), height: screenHeight*0.7))
@@ -261,8 +309,17 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
             sum += vv
         }
         
+        var inputSmokedAmount = 0.0
+        for useage in (user?.useages)! {
+            if useage.intakeMethods[0] == "smoked" {
+                inputSmokedAmount += inputSmokedAmount
+            }
+        }
+        
         insightsView?.consumedAmount?.text =  String(sum)
-        insightsView?.consumedChange?.text = String(describing: dailyAmounts!.count)
+        insightsView?.daysSmoked?.text = String(describing: dailyAmounts!.count)
+        insightsView?.smokedAmount?.text = String(inputSmokedAmount)
+        insightsView?.amountSpent?.text = String(sum * 0.04)
     }
     
     func startTimeDiveChanged(sender: UIDatePicker) {
@@ -319,7 +376,7 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         } else {
             sender.isSelected = false
             sender.backgroundColor = PottyColors.niceBlue
-            addDoseView?.thcMGramsSelectButton?.isSelected = false
+            addDoseView?.thcMGramsSelectButton?.isSelected = true
             addDoseView?.thcMGramsSelectButton?.backgroundColor = PottyColors.coreGreen
         }
     }
@@ -328,13 +385,32 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         if sender.isSelected == false {
             sender.isSelected = true
             sender.backgroundColor = PottyColors.coreGreen
-            addDoseView?.flowerGramsSelectButton?.isSelected = true
+            addDoseView?.flowerGramsSelectButton?.isSelected = false
             addDoseView?.flowerGramsSelectButton?.backgroundColor = PottyColors.niceBlue
         } else {
             sender.isSelected = false
             sender.backgroundColor = PottyColors.niceBlue
             addDoseView?.flowerGramsSelectButton?.isSelected = true
             addDoseView?.flowerGramsSelectButton?.backgroundColor = PottyColors.coreGreen
+        }
+    }
+    
+    func insightsPressed() {
+        print("OINK")
+        if (self.insightsView?.isMaximized)! {
+            UIView.animate(withDuration: 0.7, delay: 0.0, options: .curveEaseOut, animations: {
+                self.insightsView?.center.y = self.screenHeight*1.15
+                self.insightsView?.isMaximized = false
+            }, completion: { finished in
+                print("Basket doors opened!")
+            })
+        } else {
+            UIView.animate(withDuration: 0.7, delay: 0.0, options: .curveEaseOut, animations: {
+                self.insightsView?.center.y = self.screenHeight*0.53
+                self.insightsView?.isMaximized = true
+            }, completion: { finished in
+                print("Basket doors opened!")
+            })
         }
     }
     
