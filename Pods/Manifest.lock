@@ -1,0 +1,15 @@
+PODS:
+  - BEMSimpleLineGraph (4.1)
+  - FSCalendar (2.7.4)
+
+DEPENDENCIES:
+  - BEMSimpleLineGraph
+  - FSCalendar
+
+SPEC CHECKSUMS:
+  BEMSimpleLineGraph: 44fd451f27f8e9cf96f2da5bea27603093576dd1
+  FSCalendar: e95995a746acae531c4a7dd636b8393233125ec5
+
+PODFILE CHECKSUM: 8cf7902b0e35f653f60aba85c145c5a85c254f35
+
+COCOAPODS: 1.2.0

@@ -1,0 +1,6 @@
+framework module Pods_Potty {
+  umbrella header "Pods-Potty-umbrella.h"
+
+  export *
+  module * { export * }
+}
