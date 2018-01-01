@@ -14,6 +14,7 @@
 		4D15DB3B1FF6D421003312D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D15DB391FF6D421003312D1 /* LaunchScreen.storyboard */; };
 		4D15DB461FF6D421003312D1 /* PottyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D15DB451FF6D421003312D1 /* PottyTests.swift */; };
 		4D15DB511FF6D421003312D1 /* PottyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D15DB501FF6D421003312D1 /* PottyUITests.swift */; };
+		4D85C74B1FF98DD4004D4EBE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D85C74A1FF98DD4004D4EBE /* Extensions.swift */; };
 		4D94B4271FF83D8800FF2FDD /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D94B4261FF83D8800FF2FDD /* InsightsView.swift */; };
 		4D94B4291FF85E9400FF2FDD /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D94B4281FF85E9400FF2FDD /* Colors.swift */; };
 		4DB40A321FF6F19000A105B8 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB40A311FF6F19000A105B8 /* MainMenuView.swift */; };
@@ -59,6 +60,7 @@
 		4D15DB4C1FF6D421003312D1 /* PottyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PottyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D15DB501FF6D421003312D1 /* PottyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PottyUITests.swift; sourceTree = "<group>"; };
 		4D15DB521FF6D421003312D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4D85C74A1FF98DD4004D4EBE /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4D94B4261FF83D8800FF2FDD /* InsightsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		4D94B4281FF85E9400FF2FDD /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4DB40A311FF6F19000A105B8 /* MainMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				4DB40A331FF6F8FF00A105B8 /* View */,
 				4D15DB301FF6D421003312D1 /* AppDelegate.swift */,
 				4D15DB321FF6D421003312D1 /* ViewController.swift */,
+				4D85C74A1FF98DD4004D4EBE /* Extensions.swift */,
 				4D15DB341FF6D421003312D1 /* Main.storyboard */,
 				4D15DB371FF6D421003312D1 /* Assets.xcassets */,
 				4D15DB391FF6D421003312D1 /* LaunchScreen.storyboard */,
@@ -389,6 +392,7 @@
 				4D15DB311FF6D421003312D1 /* AppDelegate.swift in Sources */,
 				4DB40A3A1FF6FB8F00A105B8 /* File.swift in Sources */,
 				4DB40A3C1FF6FCB400A105B8 /* AddDoseView.swift in Sources */,
+				4D85C74B1FF98DD4004D4EBE /* Extensions.swift in Sources */,
 				4DB40A381FF6FAC200A105B8 /* User.swift in Sources */,
 				4DB40A321FF6F19000A105B8 /* MainMenuView.swift in Sources */,
 				4DEA26011FF6DFEC003F77C4 /* TitleView.swift in Sources */,

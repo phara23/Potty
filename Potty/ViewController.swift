@@ -10,7 +10,7 @@ import UIKit
 import FSCalendar
 import BEMSimpleLineGraph
 
-class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, BEMSimpleLineGraphDelegate, BEMSimpleLineGraphDataSource {
+class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, BEMSimpleLineGraphDelegate, BEMSimpleLineGraphDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var dailyAmounts: [String: Double]?
     var calendar: FSCalendar!
@@ -34,7 +34,6 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
     var user: User?
     
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -46,9 +45,9 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         screenWidth = screenSize.width
         screenHeight = screenSize.height
         
+        dailyAmounts = [String: Double]()
         
         let view = UIView(frame: UIScreen.main.bounds)
-        //view.backgroundColor = UIColor.groupTableViewBackground
         self.view = view
         
         titleView = TitleView(frame: CGRect(x: 0.0, y: 0.0, width: Double(self.view.bounds.width), height: titleHeight))
@@ -57,64 +56,11 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         mainMenuView = MainMenuView(frame: CGRect(x: 0.0, y: titleHeight, width: Double(self.view.bounds.width), height: menuHeight))
         self.view.addSubview(mainMenuView)
         
-        dailyAmounts = [String: Double]()
-        calendar = FSCalendar(frame: CGRect(x: 0.0, y: titleHeight + menuHeight, width: Double(self.view.bounds.width), height: calendarHeight))
-        calendar.dataSource = self
-        calendar.delegate = self
-        calendar.backgroundColor = UIColor.white
-        calendar.appearance.eventColor = UIColor.green
-        calendar.appearance.weekdayTextColor = UIColor.red
-        self.view.addSubview(calendar)
-        calendar.reloadData()
-        
-        self.title = "FS Calendar"
-        
-        lineGraph = BEMSimpleLineGraphView(frame: CGRect(x: Double(screenWidth), y: titleHeight + menuHeight, width: Double(screenWidth), height: calendarHeight))
-        lineGraph?.dataSource = self
-        lineGraph?.delegate = self
-        lineGraph?.enableBezierCurve = true
-        //lineGraph?.enableYAxisLabel = true
-        //lineGraph?.alphaBackgroundYaxis = 3.0
-        //lineGraph?.alphaLine = 4.0
-        lineGraph?.alwaysDisplayDots = true
-        lineGraph?.alwaysDisplayPopUpLabels = true
-        lineGraph?.autoScaleYAxis = true
-        lineGraph?.widthLine = 5.0
-        
-        self.view.addSubview(lineGraph!)
-        
+        calendarSetup()
+        graphSetup()
         userSetup()
-        
-        var sum = 0.0
-        for vv in (dailyAmounts?.values)! {
-            sum += vv
-        }
-        
-        var earliestDate: Date? = nil
-        for aa in (dailyAmounts?.keys)! {
-            print("FUC")
-            print(aa)
-        }
-        var inputSmokedAmount = 0.0
-        var inputAteAmount = 0.0
-        var inputVapedAmount = 0.0
-        for useage in (user?.useages)! {
-            if useage.intakeMethods[0] == "smoked" {
-                inputSmokedAmount += inputSmokedAmount
-            } else if useage.intakeMethods[0] == "edbile" {
-                inputAteAmount += inputAteAmount
-            } else if useage.intakeMethods[0] == "vaped" {
-                inputVapedAmount += inputVapedAmount
-            }
-        }
-        
-        var totalSpent = sum * 0.04
-        
-        insightsView = InsightsView(frame: CGRect(x: 0.0, y: titleHeight + menuHeight + calendarHeight, width: Double(screenWidth), height: Double(screenHeight*0.9)), inputConsumedAmount: sum, inputConsumedChangeLabel: String(describing: dailyAmounts!.count), inputSinceWhen: "!", inputAmountSpent: String(totalSpent), inputSmokedAmount: String(inputSmokedAmount), inputVapedAmount: String(inputVapedAmount), inputAteAmount: String(inputAteAmount))
-        
-        self.view.addSubview(insightsView!)
-        
     }
+    
     
     func GetDateFromString(DateStr: String)-> Date
     {
@@ -130,9 +76,33 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         return date!
     }
     
+    func graphSetup() {
+        self.title = "FS Calendar"
+        
+        lineGraph = BEMSimpleLineGraphView(frame: CGRect(x: Double(screenWidth), y: titleHeight + menuHeight, width: Double(screenWidth), height: calendarHeight))
+        lineGraph?.dataSource = self
+        lineGraph?.delegate = self
+        lineGraph?.enableBezierCurve = true
+        lineGraph?.alwaysDisplayDots = true
+        lineGraph?.alwaysDisplayPopUpLabels = true
+        lineGraph?.autoScaleYAxis = true
+        lineGraph?.widthLine = 5.0
+        self.view.addSubview(lineGraph!)
+    }
+    
+    func calendarSetup() {
+        calendar = FSCalendar(frame: CGRect(x: 0.0, y: titleHeight + menuHeight, width: Double(self.view.bounds.width), height: calendarHeight))
+        calendar.dataSource = self
+        calendar.delegate = self
+        calendar.backgroundColor = UIColor.white
+        calendar.appearance.eventColor = UIColor.green
+        calendar.appearance.weekdayTextColor = UIColor.red
+        self.view.addSubview(calendar)
+        calendar.reloadData()
+    }
+    
     func userSetup() {
         user = loadUser()
-        
         if user == nil {
             print("USER WAS NIL")
             user = User(inputUserID: "MarkieMark", inputPreferredSurveyTime: "", inputUseages: [], inputSurveys: [])
@@ -150,7 +120,71 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
             
             lineGraph?.reloadGraph()
             calendar.reloadData()
+            
+            var sum = 0.0
+            for vv in (dailyAmounts?.values)! {
+                sum += vv
+            }
+            
+            var inputSmokedAmount = 0.0
+            var inputAteAmount = 0.0
+            var inputVapedAmount = 0.0
+            for useage in (user?.useages)! {
+                print("BARK KING")
+                print(useage.intakeMethods[0])
+                if useage.intakeMethods[0] == "smoked" {
+                    print(useage.grams)
+                    print(inputSmokedAmount)
+                    inputSmokedAmount += useage.grams
+                    print(inputSmokedAmount)
+                    print("-----------")
+                }
+                if useage.intakeMethods[0] == "edbile" {
+                    inputAteAmount += useage.grams
+                }
+                if useage.intakeMethods[0] == "vaped" {
+                    inputVapedAmount += useage.grams
+                }
+            }
+            
+            insightsView?.consumedAmount?.text =  String(sum)
+            insightsView?.daysSmoked?.text = String(describing: dailyAmounts!.count)
+            
+            insightsView?.smokedAmount?.text = String(Int(inputSmokedAmount))
+            insightsView?.ateAmount?.text = String(Int(inputAteAmount))
+            insightsView?.vapedAmount?.text = String(Int(inputVapedAmount))
+            
+            insightsView?.amountSpent?.text = String(sum * 0.04)
         }
+        
+        var sum = 0.0
+        for vv in (dailyAmounts?.values)! {
+            sum += vv
+        }
+        
+        var earliestDate: Date? = nil
+        for aa in (dailyAmounts?.keys)! {
+            print("FUC")
+            print(aa)
+        }
+        var inputSmokedAmount = 0.0
+        var inputAteAmount = 0.0
+        var inputVapedAmount = 0.0
+        for useage in (user?.useages)! {
+            if useage.intakeMethods[0] == "smoked" {
+                inputSmokedAmount += useage.grams
+            } else if useage.intakeMethods[0] == "edbile" {
+                inputAteAmount += useage.grams
+            } else if useage.intakeMethods[0] == "vaped" {
+                inputVapedAmount += useage.grams
+            }
+        }
+        
+        var totalSpent = sum * 0.04
+        
+        insightsView = InsightsView(frame: CGRect(x: 0.0, y: titleHeight + menuHeight + calendarHeight, width: Double(screenWidth), height: Double(screenHeight*0.9)), inputConsumedAmount: sum, inputConsumedChangeLabel: String(describing: dailyAmounts!.count), inputSinceWhen: "!", inputAmountSpent: String(totalSpent), inputSmokedAmount: String(Int(inputSmokedAmount)), inputVapedAmount: String(Int(inputVapedAmount)), inputAteAmount: String(Int(inputAteAmount)))
+        
+        self.view.addSubview(insightsView!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -187,7 +221,8 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         print("Switch value 69 is \(sender.isOn)")
         
         if sender.isOn {
-            UIView.animate(withDuration: 0.7, delay: 0.0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+                self.view.backgroundColor = PottyColors.accentGray
                 self.calendar.center.x = -self.screenWidth*1.9
                 self.lineGraph!.center.x = self.screenWidth/2.0
             }, completion: { finished in
@@ -195,7 +230,8 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
             })
 
         } else {
-            UIView.animate(withDuration: 0.7, delay: 0.0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+                self.view.backgroundColor = PottyColors.accentGray
                 self.calendar.center.x = self.screenWidth/2.0
                 self.lineGraph!.center.x = self.screenWidth*1.9
             }, completion: { finished in
@@ -239,7 +275,7 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         print(addDoseView)
         
         if addDoseView == nil {
-            addDoseView = AddDoseView(frame: CGRect(x: 10.0, y: screenHeight, width: (screenWidth-10.0), height: screenHeight*0.7))
+            addDoseView = AddDoseView(frame: CGRect(x: 10.0, y: screenHeight, width: (screenWidth-10.0), height: screenHeight*0.65))
             addDoseView?.strainsTextField?.delegate = self
             addDoseView?.gramsTextField?.delegate = self
             //addDoseView?.timeTextField?.delegate = self
@@ -310,16 +346,29 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         }
         
         var inputSmokedAmount = 0.0
+        var inputAteAmount = 0.0
+        var inputVapedAmount = 0.0
         for useage in (user?.useages)! {
             if useage.intakeMethods[0] == "smoked" {
                 inputSmokedAmount += inputSmokedAmount
+            }
+            if useage.intakeMethods[0] == "edbile" {
+                inputAteAmount += inputAteAmount
+            }
+            if useage.intakeMethods[0] == "vaped" {
+                inputVapedAmount += inputVapedAmount
             }
         }
         
         insightsView?.consumedAmount?.text =  String(sum)
         insightsView?.daysSmoked?.text = String(describing: dailyAmounts!.count)
+        
         insightsView?.smokedAmount?.text = String(inputSmokedAmount)
+        insightsView?.ateAmount?.text = String(inputAteAmount)
+        insightsView?.vapedAmount?.text = String(inputVapedAmount)
+        
         insightsView?.amountSpent?.text = String(sum * 0.04)
+        
     }
     
     func startTimeDiveChanged(sender: UIDatePicker) {
@@ -399,7 +448,7 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         print("OINK")
         if (self.insightsView?.isMaximized)! {
             UIView.animate(withDuration: 0.7, delay: 0.0, options: .curveEaseOut, animations: {
-                self.insightsView?.center.y = self.screenHeight*1.15
+                self.insightsView?.center.y = self.screenHeight*1.05
                 self.insightsView?.isMaximized = false
             }, completion: { finished in
                 print("Basket doors opened!")
@@ -462,6 +511,15 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
     
     private func loadUser() -> User? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
+    }
+    
+    func addPhotosPressed() {
+        print("ADDDEDDEDDED")
+        //let myPickerController = UIImagePickerController()
+        //myPickerController.delegate = self;
+        //myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        
+        //self.present(myPickerController, animated: true, completion: nil)
     }
     
 

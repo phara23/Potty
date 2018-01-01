@@ -43,12 +43,14 @@ class MainMenuView: UIView {
         graphIcon = UIImageView(image: graph)
         calendarIcon = UIImageView(image: calendar)
         
-        calendarIcon?.center = CGPoint(x: self.bounds.width*0.64, y: self.bounds.height/2)
-        graphIcon?.center = CGPoint(x: self.bounds.width*0.86, y: self.bounds.height/2)
+        calendarIcon?.center = CGPoint(x: self.bounds.width*0.61, y: self.bounds.height/2)
+        graphIcon?.center = CGPoint(x: self.bounds.width*0.89, y: self.bounds.height/2)
 
         
         self.addSubview(graphIcon!)
         self.addSubview(calendarIcon!)
+        
+         self.layer.addBorder(edge: UIRectEdge.bottom, color: UIColor.darkGray, thickness: 1.0)
     }
     
     

@@ -12,6 +12,7 @@ class AddDoseView: UIView {
     
     var dateLabel: UILabel?
     var datePicker: UIDatePicker?
+    var addPhotosButton: UIButton?
     
     var timeLabel: UILabel?
     var timePicker: UIDatePicker?
@@ -38,9 +39,9 @@ class AddDoseView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.lightGray
+        self.backgroundColor = PottyColors.accentGray
         
-        self.layer.borderWidth = 1
+        self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.darkGray.cgColor
         
         addDoseProgressView = AddDoseProgressView(frame: CGRect(x: 0.0, y: self.bounds.height*0.75, width: self.bounds.width, height: 80), numberOfSteps: 5)
@@ -79,6 +80,12 @@ class AddDoseView: UIView {
         datePicker?.center.x = self.bounds.width/2
         self.addSubview(datePicker!)
         datePicker?.addTarget(nil, action: #selector(ViewController.startDateDiveChanged), for: UIControlEvents.valueChanged)
+        
+        addPhotosButton = UIButton(frame: CGRect(x: 20.0, y: 220.0, width: 200, height: 65.0))
+        addPhotosButton?.backgroundColor = PottyColors.coreGreen
+        addPhotosButton?.setTitle("Add Photos", for: UIControlState.normal)
+        addPhotosButton?.addTarget(nil, action: #selector(ViewController.addPhotosPressed), for: .touchUpInside)
+        self.addSubview(addPhotosButton!)
         
         
         

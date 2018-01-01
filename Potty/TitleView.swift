@@ -35,6 +35,7 @@ class TitleView: UILabel {
         self.textAlignment = NSTextAlignment.center
         self.font = UIFont(name: "GillSans-Bold", size: 29.0)
         self.textColor = PottyColors.coreGreen
+        self.layer.addBorder(edge: UIRectEdge.bottom, color: UIColor.darkGray, thickness: 2.0)
     }
     
 

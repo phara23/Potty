@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class InsightsView: UIView {
+class InsightsView: UIScrollView {
     
     var consumedAmount: UILabel?
     var consumedAmountLabel: UILabel?
@@ -43,9 +43,13 @@ class InsightsView: UIView {
     
     var isMaximized = false
     
+    
     init(frame: CGRect, inputConsumedAmount: Double, inputConsumedChangeLabel: String, inputSinceWhen: String, inputAmountSpent: String, inputSmokedAmount: String, inputVapedAmount: String, inputAteAmount:String) {
         super.init(frame: frame)
-        self.backgroundColor = PottyColors.accentGray
+        
+        self.backgroundColor = UIColor.white
+    
+        self.contentSize = CGSize(width:frame.width, height: frame.height*2)
         
         insightsTitle = UIButton(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 45.0))
         insightsTitle?.backgroundColor = PottyColors.coreGreen
@@ -55,60 +59,84 @@ class InsightsView: UIView {
         self.addSubview(insightsTitle!)
             
             
-        consumedAmountLabel = UILabel(frame: CGRect(x: self.bounds.width*0.09, y: 100, width: 165, height: 80))
+        consumedAmountLabel = UILabel(frame: CGRect(x: self.bounds.width*0.08, y: 175, width: 165, height: 40))
         consumedAmountLabel?.text = "Total (mg)"
         consumedAmountLabel?.textAlignment = NSTextAlignment.center
         consumedAmountLabel?.backgroundColor = PottyColors.accentGray
+        consumedAmountLabel?.layer.borderColor = UIColor.darkGray.cgColor
+        consumedAmountLabel?.layer.borderWidth = 0.5
         self.addSubview(consumedAmountLabel!)
         
-        consumedAmount = UILabel(frame: CGRect(x: self.bounds.width*0.13, y: 54, width: 140, height: 80))
+        consumedAmount = UILabel(frame: CGRect(x: self.bounds.width*0.15, y: 54, width: 115, height: 115))
         consumedAmount?.text = String(inputConsumedAmount)
         consumedAmount?.textAlignment = NSTextAlignment.center
-        consumedAmount?.font = UIFont(name: "GillSans-Bold", size: 35.0)
+        consumedAmount?.font = UIFont(name: "GillSans", size: 30.0)
         consumedAmount?.backgroundColor = PottyColors.accentGray
+        consumedAmount?.layer.cornerRadius = (consumedAmount?.frame.width)!/2
+        consumedAmount?.layer.masksToBounds = true
+        consumedAmount?.layer.borderColor = UIColor.darkGray.cgColor
+        consumedAmount?.layer.borderWidth = 0.5
         self.addSubview(consumedAmount!)
         
-        daysSmokedLabel = UILabel(frame: CGRect(x: self.bounds.width*0.59, y: 100, width: 165, height: 80))
+        daysSmokedLabel = UILabel(frame: CGRect(x: self.bounds.width*0.53, y: 175, width: 165, height: 40))
         daysSmokedLabel?.text = "Days Smoked"
         daysSmokedLabel?.textAlignment = NSTextAlignment.center
         daysSmokedLabel?.backgroundColor = PottyColors.accentGray
+        daysSmokedLabel?.layer.borderColor = UIColor.darkGray.cgColor
+        daysSmokedLabel?.layer.borderWidth = 0.5
         self.addSubview(daysSmokedLabel!)
         
-        daysSmoked = UILabel(frame: CGRect(x: self.bounds.width*0.60, y: 54, width: 140, height: 80))
+        daysSmoked = UILabel(frame: CGRect(x: self.bounds.width*0.60, y: 54, width: 115, height: 115))
         daysSmoked?.text = inputConsumedChangeLabel
         daysSmoked?.textAlignment = NSTextAlignment.center
-        daysSmoked?.font = UIFont(name: "GillSans-Bold", size: 48.0)
+        daysSmoked?.font = UIFont(name: "GillSans", size: 30.0)
         daysSmoked?.backgroundColor = PottyColors.accentGray
+        daysSmoked?.layer.cornerRadius = (daysSmoked?.frame.width)!/2
+        daysSmoked?.layer.masksToBounds = true
+        daysSmoked?.layer.borderColor = UIColor.darkGray.cgColor
+        daysSmoked?.layer.borderWidth = 0.5
         self.addSubview(daysSmoked!)
         
         
-        amountSpentLabel = UILabel(frame: CGRect(x: self.bounds.width*0.09, y: 240, width: 165, height: 80))
+        amountSpentLabel = UILabel(frame: CGRect(x: self.bounds.width*0.09, y: 363, width: 165, height: 40))
         amountSpentLabel?.text = "Spent ($)"
         amountSpentLabel?.textAlignment = NSTextAlignment.center
         amountSpentLabel?.backgroundColor = PottyColors.accentGray
+        amountSpentLabel?.layer.borderColor = UIColor.darkGray.cgColor
+        amountSpentLabel?.layer.borderWidth = 0.5
         self.addSubview(amountSpentLabel!)
         
-        amountSpent = UILabel(frame: CGRect(x: self.bounds.width*0.13, y: 195, width: 140, height: 80))
+        amountSpent = UILabel(frame: CGRect(x: self.bounds.width*0.15, y: 240, width: 115, height: 115))
         amountSpent?.text = inputAmountSpent
         amountSpent?.textAlignment = NSTextAlignment.center
-        amountSpent?.font = UIFont(name: "GillSans-Bold", size: 40.0)
+        amountSpent?.font = UIFont(name: "GillSans", size: 30.0)
         amountSpent?.backgroundColor = PottyColors.accentGray
+        amountSpent?.layer.cornerRadius = (amountSpent?.frame.width)!/2
+        amountSpent?.layer.masksToBounds = true
+        amountSpent?.layer.borderColor = UIColor.darkGray.cgColor
+        amountSpent?.layer.borderWidth = 0.5
         self.addSubview(amountSpent!)
         
-        sinceWhenLabel = UILabel(frame: CGRect(x: self.bounds.width*0.54, y: 240, width: 165, height: 80))
+        sinceWhenLabel = UILabel(frame: CGRect(x: self.bounds.width*0.54, y: 363, width: 165, height: 40))
         sinceWhenLabel?.text = "Since"
         sinceWhenLabel?.textAlignment = NSTextAlignment.center
         sinceWhenLabel?.backgroundColor = PottyColors.accentGray
+        sinceWhenLabel?.layer.borderColor = UIColor.darkGray.cgColor
+        sinceWhenLabel?.layer.borderWidth = 0.5
         self.addSubview(sinceWhenLabel!)
         
-        sinceWhen = UILabel(frame: CGRect(x: self.bounds.width*0.60, y: 195, width: 140, height: 80))
+        sinceWhen = UILabel(frame: CGRect(x: self.bounds.width*0.60, y: 240, width: 115, height: 115))
         sinceWhen?.text = inputSinceWhen
         sinceWhen?.textAlignment = NSTextAlignment.center
-        sinceWhen?.font = UIFont(name: "GillSans-Bold", size: 40.0)
+        sinceWhen?.font = UIFont(name: "GillSans", size: 30.0)
         sinceWhen?.backgroundColor = PottyColors.accentGray
+        sinceWhen?.layer.cornerRadius = (sinceWhen?.frame.width)!/2
+        sinceWhen?.layer.masksToBounds = true
+        sinceWhen?.layer.borderColor = UIColor.darkGray.cgColor
+        sinceWhen?.layer.borderWidth = 0.5
         self.addSubview(sinceWhen!)
         
-        amountByMgLabel = UILabel(frame: CGRect(x: 0.0, y: 290, width: 170, height: 80.0))
+        amountByMgLabel = UILabel(frame: CGRect(x: 0.0, y: 435, width: 170, height: 40.0))
         amountByMgLabel?.center.x = self.bounds.width/2
         amountByMgLabel?.text = "Amount (mg)"
         amountByMgLabel?.textAlignment = NSTextAlignment.center
@@ -116,22 +144,22 @@ class InsightsView: UIView {
         amountByMgLabel?.backgroundColor = PottyColors.accentGray
         self.addSubview(amountByMgLabel!)
         
-        smokedAmount = UILabel(frame: CGRect(x: 0.0, y: 340, width: 150, height: 80.0))
-        smokedAmount?.center.x = self.bounds.width/4
+        smokedAmount = UILabel(frame: CGRect(x: 0.0, y: 475, width: 170, height: 40.0))
+        smokedAmount?.center.x = self.bounds.width*0.2
         smokedAmount?.text = inputSmokedAmount
         smokedAmount?.textAlignment = NSTextAlignment.center
         smokedAmount?.font = UIFont(name: "GillSans", size: 35.0)
         smokedAmount?.backgroundColor = PottyColors.accentGray
         self.addSubview(smokedAmount!)
         
-        smokedAmountLabel = UILabel(frame: CGRect(x: 0.0, y: 395, width: 150, height: 80.0))
-        smokedAmountLabel?.center.x = self.bounds.width/4
+        smokedAmountLabel = UILabel(frame: CGRect(x: 0.0, y: 515, width: 160.0, height: 40.0))
+        smokedAmountLabel?.center.x = self.bounds.width*0.2
         smokedAmountLabel?.text = "Smoked"
         smokedAmountLabel?.textAlignment = NSTextAlignment.center
         smokedAmountLabel?.backgroundColor = PottyColors.accentGray
         self.addSubview(smokedAmountLabel!)
         
-        vapedAmount = UILabel(frame: CGRect(x: 0.0, y: 340, width: 150, height: 80.0))
+        vapedAmount = UILabel(frame: CGRect(x: 0.0, y: 475, width: 170, height: 40.0))
         vapedAmount?.center.x = self.bounds.width/2
         vapedAmount?.text = inputVapedAmount
         vapedAmount?.textAlignment = NSTextAlignment.center
@@ -139,28 +167,31 @@ class InsightsView: UIView {
         vapedAmount?.backgroundColor = PottyColors.accentGray
         self.addSubview(vapedAmount!)
         
-        vapedAmountLabel = UILabel(frame: CGRect(x: 0.0, y: 395, width: 150, height: 80.0))
+        vapedAmountLabel = UILabel(frame: CGRect(x: 0.0, y: 515, width: 150, height: 40.0))
         vapedAmountLabel?.center.x = self.bounds.width/2
         vapedAmountLabel?.text = "Vaped"
         vapedAmountLabel?.textAlignment = NSTextAlignment.center
         vapedAmountLabel?.backgroundColor = PottyColors.accentGray
         self.addSubview(vapedAmountLabel!)
         
-        ateAmount = UILabel(frame: CGRect(x: 0.0, y: 340, width: 150, height: 80.0))
-        ateAmount?.center.x = self.bounds.width * 0.75
+        ateAmount = UILabel(frame: CGRect(x: 0.0, y: 475, width: 170, height: 40.0))
+        ateAmount?.center.x = self.bounds.width * 0.8
         ateAmount?.text = inputAteAmount
         ateAmount?.textAlignment = NSTextAlignment.center
         ateAmount?.font = UIFont(name: "GillSans", size: 35.0)
         ateAmount?.backgroundColor = PottyColors.accentGray
         self.addSubview(ateAmount!)
         
-        ateAmountLabel = UILabel(frame: CGRect(x: 0.0, y: 395, width: 150, height: 80.0))
-        ateAmountLabel?.center.x = self.bounds.width * 0.75
+        ateAmountLabel = UILabel(frame: CGRect(x: 0.0, y: 515, width: 150, height: 40.0))
+        ateAmountLabel?.center.x = self.bounds.width * 0.8
         ateAmountLabel?.text = "Ate"
         ateAmountLabel?.textAlignment = NSTextAlignment.center
         ateAmountLabel?.backgroundColor = PottyColors.accentGray
         self.addSubview(ateAmountLabel!)
+        
+         self.layer.addBorder(edge: UIRectEdge.top, color: UIColor.darkGray, thickness: 2.0)
     }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
