@@ -5,11 +5,11 @@ Potty lets users track their medical or recreational marijuana consumption. All 
 
 ![alt text](screenshots/IMG_1797.jpg "What you see when you open the app")
 
-![alt text](screenshots/IMG_1799.jpg.jpg "View your consumption in a graph or calendar")
+![alt text](screenshots/IMG_1799.jpg "View your consumption in a graph or calendar")
 
-![alt text](screenshots/IMG_1798.jpg.jpg.jpg "Insights into useage")
+![alt text](screenshots/IMG_1798.jpg "Insights into useage")
 
-![alt text](screenshots/IMG_1800.jpg.jpg.jpg.jpg "Add a dose")
+![alt text](screenshots/IMG_1800.jpg "Add a dose")
 
 
 
