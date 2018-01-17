@@ -223,7 +223,7 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         if sender.isOn {
             UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
                 self.view.backgroundColor = PottyColors.accentGray
-                self.calendar.center.x = -self.screenWidth*1.9
+                //self.calendar.center.x = -self.screenWidth*1.9
                 self.lineGraph!.center.x = self.screenWidth/2.0
             }, completion: { finished in
                 print("Basket doors opened!")
@@ -232,7 +232,7 @@ class ViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate
         } else {
             UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
                 self.view.backgroundColor = PottyColors.accentGray
-                self.calendar.center.x = self.screenWidth/2.0
+                //self.calendar.center.x = self.screenWidth/2.0
                 self.lineGraph!.center.x = self.screenWidth*1.9
             }, completion: { finished in
                 print("Basket doors opened!")
